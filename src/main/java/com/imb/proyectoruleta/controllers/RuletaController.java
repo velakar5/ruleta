@@ -43,6 +43,11 @@ public class RuletaController {
 	@Autowired
 	private RuletaDAO ruletaDao;
 	
+	/**
+	 * EndPoint para devolver todas las ruletas
+	 * @return List de objetos json de ruleta
+	 * @author carlos de jesus velazquez lopez
+	 */
 	@GetMapping("/todos")
 	public ResponseEntity<?> obtenerTodo(){
 		List<Ruleta> ruletas = (List<Ruleta>) ruletaDao.buscarTodos();
@@ -53,6 +58,12 @@ public class RuletaController {
 		return new ResponseEntity<List<Ruleta>>(ruletas,HttpStatus.OK);
 	}
 	
+	/**
+	 * EndPint para devolver una ruleta en especifico por medio de su id
+	 * @param idRuletparametro Integer para detectar una ruleta
+	 * @return objeto json de ruleta
+	 * @author carlos de jesus velazquez lopez
+	 */
 	@GetMapping("/{idRuleta}")
 	public ResponseEntity<?> buscarPorId(@PathVariable Integer idRuleta){
 		Optional<Ruleta> oRuleta = ruletaDao.buscarPorId(idRuleta);
@@ -61,6 +72,13 @@ public class RuletaController {
 		return new ResponseEntity<Ruleta>(oRuleta.get(),HttpStatus.OK);
 	}
 	
+	/**
+	 * EndPoint para crear una nueva ruleta
+	 * @param ruleta objeto de tipo Ruleta con los datos de la nueva ruleta a guardar
+	 * @param result parametro para guardar las validaciones que se activaron
+	 * @return string con mensaje de confirmacion o denegacion segun sea el caso
+	 * @author carlos de jesus velazquez lopez
+	 */
 	@PostMapping
 	public ResponseEntity<?> creaRuleta(@Valid @RequestBody Ruleta ruleta, BindingResult result){
 		
@@ -88,6 +106,12 @@ public class RuletaController {
 		
 	}
 	
+	/**
+	 * EndPoint para activar una ruleta
+	 * @param idRuleta parametro Integer para identificar la ruleta a activar
+	 * @return String con mensaje exitoso  o de falla segun sea el caso
+	 * @author carlos de jesus velazquez lopez
+	 */
 	@PutMapping("/abrirRuleta/{idRuleta}")
 	public ResponseEntity<String> activarRuleta(@PathVariable Integer idRuleta){
 		Optional<Ruleta> oRuleta = ruletaDao.buscarPorId(idRuleta);
@@ -100,6 +124,12 @@ public class RuletaController {
 		return new ResponseEntity<String>("Operacion exitosa",HttpStatus.OK);
 	}
 	
+	/**
+	 * EndPoint para cerrar una ruleta ya activa previamente
+	 * @param idRuleta parametro Integer con el id de la ruleta a identificar
+	 * @return Objeto Ruleta con todas las apuestas y datos de la ruleta realizados
+	 * @author carlos de jesus velazquez lopez
+	 */
 	@PutMapping("/cerrarRuleta/{idRuleta}")
 	public ResponseEntity<?> cerrarRuleta(@PathVariable Integer idRuleta){
 		Optional<Ruleta> oRuleta = ruletaDao.buscarPorId(idRuleta);
@@ -112,7 +142,11 @@ public class RuletaController {
 		return new ResponseEntity<Ruleta>(ruleta,HttpStatus.OK);
 	}
 	
-
+	/**
+	 * EndPoint para devolver todas las ruletas
+	 * @return List de objetos json de ruleta
+	 * @author carlos de jesus velazquez lopez
+	 */
 	@GetMapping("/ruletasDTO")
 	public ResponseEntity<?> obtenerRuletasDTO(){
 		logger.info("Entrando a obtener resultados de Ruletas");
@@ -129,6 +163,12 @@ public class RuletaController {
 		return new ResponseEntity<List<RuletaDTO>>(ruletasDTO,HttpStatus.OK);
 	}
 	
+	/**
+	 * EndPoint para cerrar una ruleta ya activa previamente
+	 * @param idRuleta parametro Integer con el id de la ruleta a identificar
+	 * @return Objeto Ruleta con todas las apuestas y datos de la ruleta realizados
+	 * @author carlos de jesus velazquez lopez
+	 */
 	@PutMapping("/cerrarRuletaDTO/{idRuleta}")
 	public ResponseEntity<?> cerrarRuletaDTO(@PathVariable Integer idRuleta){
 		Optional<Ruleta> oRuleta = ruletaDao.buscarPorId(idRuleta);

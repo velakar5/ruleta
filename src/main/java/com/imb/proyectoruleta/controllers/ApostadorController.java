@@ -37,7 +37,14 @@ public class ApostadorController {
 	@Autowired
 	private RuletaDAO ruletaDao;
 	
-	
+	/**
+	 * EndPoint para guardar una nueva apuesta y afiiliarla a una ruleta
+	 * @param apuesta objeto json para guardar datos de la nueva apuesta
+	 * @param result para detectar validacions
+	 * @param idRuleta parametro Integer para afiliara  una ruleta ya existente
+	 * @return Objeto json con el objeto creado
+	 * @author Carlos de jesus velazquez lopez
+	 */
 	@PostMapping("/{idRuleta}")
 	public ResponseEntity<?> guardarApuesta(@Valid @RequestBody Apostador apuesta, BindingResult result, @PathVariable Integer idRuleta){
 		Map<String, Object> validaciones = new HashMap<>();
@@ -53,7 +60,6 @@ public class ApostadorController {
 		
 		
 		Optional<Ruleta> oRuleta = ruletaDao.buscarPorId(idRuleta);
-		System.out.println(oRuleta.get().getId());
 		if(oRuleta.isEmpty() || !oRuleta.get().getEstadoRuleta())
 			throw new RuletaInexistente("No existe ruleta para la apuesta");
 		Apostador apuestaRealizada = apostadorDao.guardarApuesta(apuesta, oRuleta.get());
